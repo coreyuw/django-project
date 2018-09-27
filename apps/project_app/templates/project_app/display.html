@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Display Sky</title>
+</head>
+<body>
+    <div class="countainer-fluid" style="margin:10px;border-style:groove; border-radius:10px;padding:5px;">
+    <h2>Ground info:</h2>
+    <p>Site name: <strong>{{ request.session.context.site }}</strong></p>
+    <p>Observing date: <strong>{{ request.session.context.date }}</strong></p>
+    <p>Sunset at this place will be: <strong>{{ request.session.context.sunset }}</strong></p>
+    <p>Sunrise at this place will be: <strong>{{ request.session.context.sunrise }}</strong></p>
+    <p>Midnight at this place will be: <strong>{{ request.session.context.midnight }}</strong></p>
+    </div>
+    <br>
+    <div class="countainer-fluid" style="margin:10px;border-style:groove; border-radius:10px;padding:5px;">
+    <h2>Object info:</h2>
+    <p>Object name: <strong>{{ request.session.context.name }}</strong></p>
+    <p>Object RA: <strong>{{ request.session.context.ra }}</strong></p>
+    <p>Object Dec: <strong>{{ request.session.context.dec }}</strong></p>
+    </div>
+    <br>
+    {% load static %}
+    <br>
+    <div class="countainer-fluid" style="margin:10px;border-top:2px solid;padding:5px;">
+        <h3>Object movement:</h3>
+        <img src="{% static "project_app/plot_sky.png" %}" name='sky'>
+    </div>
+    <br>
+    <div class="countainer-fluid" style="margin:10px;border-top:2px solid;padding:5px;">
+        <h3>Airmass plot:</h3>
+        <img src="{% static "project_app/plot_airmass.png" %}" name='airmass'>
+    </div>
+    <br>
+    <div class="countainer-fluid" style="margin:10px;border-top:2px solid;border-bottom:2px solid;padding:5px;">
+        <h3>Expected image:</h3>
+        <img src="{% static "project_app/plot_finder_image.png" %}" name='object'>
+    </div>
+    <button style="border-radius:5px;margin:30px;margin-bottom:100px;"><a href="/"><h4>Back to Query</h4></a></button>
+</body>
+</html>

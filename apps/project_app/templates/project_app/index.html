@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Astronomical Observation Query</title>
+    <script>
+            function sortList() {
+              var list, i, switching, b, shouldSwitch;
+              list = document.getElementById("observatory");
+              switching = true;
+              /* Make a loop that will continue until
+              no switching has been done: */
+              while (switching) {
+                // Start by saying: no switching is done:
+                switching = false;
+                b = list.getElementsByTagName("LI");
+                // Loop through all list items:
+                for (i = 0; i < (b.length - 1); i++) {
+                  // Start by saying there should be no switching:
+                  shouldSwitch = false;
+                  /* Check if the next item should
+                  switch place with the current item: */
+                  if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                    /* If next item is alphabetically lower than current item,
+                    mark as a switch and break the loop: */
+                    shouldSwitch = true;
+                    break;
+                  }
+                }
+                if (shouldSwitch) {
+                  /* If a switch has been marked, make the switch
+                  and mark the switch as done: */
+                  b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                  switching = true;
+                }
+              }
+            }
+        </script>
+</head>
+<body>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="header" style="margin-left: 20px;">
+        <h1>Observation Planner</h1>
+        <p>This app helps you decide if an observation of your choice is likely to be successfully made.</p>
+        {% load static %}
+        <img src="{% static "project_app/main.jpg" %}" style="width:500px; height: 300px;"name='main'>
+    </div>
+        <div class="container-fluid">
+            <br>
+            <p>The current local time in <strong><u>Seattle</u></strong> is <strong><u>{{ current_time }}</u></strong> (Refresh the page to get the latest time)</p>
+            <br>
+    <form action="/observe" method="POST">
+        {% csrf_token %}
+        <h3>Ground information:</h3>
+        <div class="groundChoice" style="border-style:groove; border-radius:10px;padding:5px;">
+            <p>Choose any <strong><u>observatory</u></strong> you want to visit in the dropdown list below:</p>
+        Observatory: <select name="observatory">
+            {% for name in observatories.name %}
+            <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+        <p>Choose your <strong><u>observating date</u></strong> below:</p>
+        Observing date: <input type="date" name="observing_date" value="">
+        <br>
+        </div>
+        
+        <h3>Celestial object information:</h3>
+        <div class="skyChoice" style="border-style:groove; border-radius:10px;padding:5px;">
+        Name: <input type="text" name="name" value=""> (eg: m33)
+        <br>
+        Right Ascension: <input type="text" name="ra" value=""> (eg: 01h33m50.904s)
+        <br>
+        Declination: <input type="text" name="dec" value=""> (eg: +30d39m35.79s)
+        </div>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+        <br>
+    </div>
+</body>
+</html>
